@@ -48,7 +48,7 @@ jobs:
       # 7. Jalankan dvc pull untuk mengambil data/cache dari remote
       - name: DVC Pull
         run: |
-          dvc pull --quiet
+          dvc pull 
 
       # 8. Jalankan pipeline secara penuh untuk memastikan tidak ada error
       - name: DVC Reproduce Pipeline
