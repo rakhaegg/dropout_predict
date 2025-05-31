@@ -30,7 +30,16 @@ jobs:
       - name: Recreate Service Account JSON
         run: |
           mkdir -p credentials
-          echo "${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}" > credentials/service-account.json
+
+          # Gunakan here-document agar JSON tidak ter-escape
+          cat << 'EOF' > credentials/service-account.json
+          ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
+          EOF
+
+          # (Opsional) Verifikasi ringkas beberapa baris awal JSON
+          echo "=== First 5 lines of credentials/service-account.json ==="
+          head -n 5 credentials/service-account.json
+
 
       # 6. Konfigurasikan DVC agar menggunakan Service Account JSON
       - name: Configure DVC Remote for Google Drive
@@ -45,16 +54,33 @@ jobs:
           dvc remote modify gdrive_remote --local \
             gdrive_service_account_json_file_path credentials/service-account.json
 
-      # 7. Jalankan dvc pull untuk mengambil data/cache dari remote
+      # 7. Debug DVC Remote & JSON
+      - name: Debug: DVC Remote & JSON
+        run: |
+          echo "=== .dvc/config ==="
+          cat .dvc/config || echo "(no .dvc/config)"
+          echo "=== .dvc/config.local ==="
+          cat .dvc/config.local || echo "(no .dvc/config.local)"
+
+          echo "=== Check file JSON existence and syntax ==="
+          ls -l credentials/service-account.json
+          head -n 10 credentials/service-account.json
+
+          echo "=== DVC Remote List ==="
+          dvc remote list
+          echo "=== DVC Remote Info (gdrive_remote) ==="
+          dvc remote modify gdrive_remote --list
+
+      # 8. Jalankan dvc pull untuk mengambil data/cache dari remote
       - name: DVC Pull
         run: |
           dvc pull 
 
-      # 8. Jalankan pipeline secara penuh untuk memastikan tidak ada error
+      # 9. Jalankan pipeline secara penuh untuk memastikan tidak ada error
       - name: DVC Reproduce Pipeline
         run: |
           dvc repro --quiet
 
-      # 9. Jika semua sukses, berikan notifikasi di log
+      # 10. Jika semua sukses, berikan notifikasi di log
       - name: Success Message
         run: echo "✅ DVC pull & repro executed successfully!"
