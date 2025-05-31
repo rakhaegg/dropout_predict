@@ -55,7 +55,7 @@ jobs:
             gdrive_service_account_json_file_path credentials/service-account.json
 
       # 7. Debug DVC Remote & JSON
-      - name: Debug: DVC Remote & JSON
+      - name: DVC Remote & JSON
         run: |
           echo "=== .dvc/config ==="
           cat .dvc/config || echo "(no .dvc/config)"
