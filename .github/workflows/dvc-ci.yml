@@ -4,7 +4,7 @@ name: DVC CI
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   dvc-check:
