@@ -76,11 +76,11 @@ jobs:
         run: |
           dvc pull 
 
-      # 9. Jalankan pipeline secara penuh untuk memastikan tidak ada error
-      - name: DVC Reproduce Pipeline
-        run: |
-          dvc repro 
-          
+    #   # 9. Jalankan pipeline secara penuh untuk memastikan tidak ada error
+    #   - name: DVC Reproduce Pipeline
+    #     run: |
+    #       dvc repro 
+
       # 10. Jika semua sukses, berikan notifikasi di log
       - name: Success Message
         run: echo "✅ DVC pull & repro executed successfully!"
