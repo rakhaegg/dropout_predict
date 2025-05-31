@@ -36,7 +36,7 @@ jobs:
       - name: Configure DVC Remote for Google Drive
         run: |
           # Jika remote belum pernah ditambahkan, baris ini akan menambahkannya
-          dvc remote add -d gdrive_remote gdrive://<FOLDER_ID>
+          dvc remote add -d gdrive_remote gdrive://1slQ2wu0Lz_DPKCeKE0kZ-mge1qhUAM3e
           # Ganti <FOLDER_ID> dengan ID folder Google Drive yang sesuai
 
           # Aktifkan penggunaan Service Account
