@@ -54,22 +54,22 @@ jobs:
           dvc remote modify gdrive_remote --local \
             gdrive_service_account_json_file_path credentials/service-account.json
 
-      # 7. Debug DVC Remote & JSON
-      - name: DVC Remote & JSON
-        run: |
-          echo "=== .dvc/config ==="
-          cat .dvc/config || echo "(no .dvc/config)"
-          echo "=== .dvc/config.local ==="
-          cat .dvc/config.local || echo "(no .dvc/config.local)"
+    #   # 7. Debug DVC Remote & JSON
+    #   - name: DVC Remote & JSON
+    #     run: |
+    #       echo "=== .dvc/config ==="
+    #       cat .dvc/config || echo "(no .dvc/config)"
+    #       echo "=== .dvc/config.local ==="
+    #       cat .dvc/config.local || echo "(no .dvc/config.local)"
 
-          echo "=== Check file JSON existence and syntax ==="
-          ls -l credentials/service-account.json
-          head -n 10 credentials/service-account.json
+    #       echo "=== Check file JSON existence and syntax ==="
+    #       ls -l credentials/service-account.json
+    #       head -n 10 credentials/service-account.json
 
-          echo "=== DVC Remote List ==="
-          dvc remote list
-          echo "=== DVC Remote Info (gdrive_remote) ==="
-          dvc remote modify gdrive_remote --list
+    #       echo "=== DVC Remote List ==="
+    #       dvc remote list
+    #       echo "=== DVC Remote Info (gdrive_remote) ==="
+    #       dvc remote modify gdrive_remote --list
 
       # 8. Jalankan dvc pull untuk mengambil data/cache dari remote
       - name: DVC Pull
