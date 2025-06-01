@@ -102,6 +102,11 @@ jobs:
         run: |
           pytest tests/test_dataset.py
 
+      - name: Generate aug samples & unit tests
+        run: |
+          dvc repro augment_preview
+          pytest tests/test_augment.py
+
     #   # 9. Jalankan pipeline secara penuh untuk memastikan tidak ada error
     #   - name: DVC Reproduce Pipeline
     #     run: |

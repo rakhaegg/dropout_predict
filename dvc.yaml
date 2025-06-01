@@ -6,3 +6,12 @@ stages:
     - scripts/split.py
     outs:
     - data/processed
+  augment_preview:
+    cmd: python scripts/augment_dataset.py --src data/processed/train --dst docs/aug_samples
+      -n 3
+    deps:
+    - data/processed/train
+    - fruitscan/augment.py
+    - scripts/augment_dataset.py
+    outs:
+    - docs/aug_samples
