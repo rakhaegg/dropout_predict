@@ -1,17 +1,38 @@
-import numpy as np, cv2, random, pytest
+# tests/test_augment.py
+
+from pathlib import Path
+import random
+import sys
+import numpy as np
+import cv2
+import pytest
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+
 from fruitscan.augment import get_train_transforms, AUG_SEED
 
 def test_deterministic():
-    random.seed(AUG_SEED)
-    img = np.ones((128,128,3), dtype=np.uint8)*127
+    # Buat gambar input abu‐abu (128×128)
+    img = np.ones((128, 128, 3), dtype=np.uint8) * 127
+
+    # Dapatkan fungsi augmentasi baru
     tf = get_train_transforms()
-    out1 = tf(image=img)["image"]
+
+    # Panggil pertama kali (bisa dianggap "generate replay_params")
     random.seed(AUG_SEED)
-    tf = get_train_transforms()
-    out2 = tf(image=img)["image"]
-    assert np.array_equal(out1, out2), "Augmentation should be deterministic with same seed"
+    img1 = tf(image=img)["image"]
+
+    # Panggil kedua kali: simpan ulang seed agar closure meng-capture seed yang sama
+    random.seed(AUG_SEED)
+    img2 = tf(image=img)["image"]
+
+    assert img1.shape == (128, 128, 3)
+    assert img2.shape == (128, 128, 3)
+    assert np.array_equal(img1, img2), "Augmentation harus deterministik dengan replay_params yang sama"
+
 
 def test_shape_preserved():
-    img = np.zeros((128,128,3), dtype=np.uint8)
-    out = get_train_transforms()(image=img)["image"]
-    assert out.shape == img.shape
+    img = np.zeros((128, 128, 3), dtype=np.uint8)
+    tf = get_train_transforms()
+
+    transformed = tf(image=img)["image"]
+    assert transformed.shape == img.shape

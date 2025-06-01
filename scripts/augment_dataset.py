@@ -3,8 +3,8 @@
 Generate N augmented samples per class for visual inspection.
 """
 import argparse, random
-import sys
 from pathlib import Path
+import sys
 import cv2
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
