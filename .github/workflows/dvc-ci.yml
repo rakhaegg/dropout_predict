@@ -28,7 +28,8 @@ jobs:
             dvc[gdrive] \
             pillow \
             scikit-learn \
-            pytest
+            pytest \
+            opencv-python
 
 
       # 5. Rekonstruksi file Service Account JSON dari secret GitHub ke folder credentials/
