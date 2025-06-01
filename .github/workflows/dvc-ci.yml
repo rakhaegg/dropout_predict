@@ -44,8 +44,10 @@ jobs:
       # 6. Konfigurasikan DVC agar menggunakan Service Account JSON
       - name: Configure DVC Remote for Google Drive
         run: |
+          FOLDER_ID=1slQ2wu0Lz_DPKCeKE0kZ-mge1qhUAM3e
+          SA_EMAIL=dvc-gdrive-sa@seismic-octane-441403-b9.iam.gserviceaccount.com
           # Jika remote belum pernah ditambahkan, baris ini akan menambahkannya
-          dvc remote add -d -f gdrive_remote gdrive://1slQ2wu0Lz_DPKCeKE0kZ-mge1qhUAM3e
+          dvc remote add -d -f gdrive_remote gdrive://$FOLDER_ID
           # Ganti <FOLDER_ID> dengan ID folder Google Drive yang sesuai
 
           # Aktifkan penggunaan Service Account
@@ -53,7 +55,9 @@ jobs:
           # Tentukan lokasi file JSON (gunakan --local supaya tidak tersimpan di .dvc/config)
           dvc remote modify gdrive_remote --local \
             gdrive_service_account_json_file_path credentials/service-account.json
-
+          dvc remote modify gdrive_remote --local \
+            gdrive_service_account_user_email $SA_EMAIL
+            
     #   # 7. Debug DVC Remote & JSON
     #   - name: DVC Remote & JSON
     #     run: |
