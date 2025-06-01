@@ -29,7 +29,8 @@ jobs:
             pillow \
             scikit-learn \
             pytest \
-            opencv-python
+            opencv-python \
+            albumentations
 
 
       # 5. Rekonstruksi file Service Account JSON dari secret GitHub ke folder credentials/
