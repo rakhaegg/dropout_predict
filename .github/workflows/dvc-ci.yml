@@ -57,7 +57,7 @@ jobs:
             gdrive_service_account_json_file_path credentials/service-account.json
           dvc remote modify gdrive_remote --local \
             gdrive_service_account_user_email $SA_EMAIL
-            
+
     #   # 7. Debug DVC Remote & JSON
     #   - name: DVC Remote & JSON
     #     run: |
@@ -80,11 +80,16 @@ jobs:
         run: |
           dvc pull 
 
+      - name: Run Sanity Check
+        run: |
+          python scripts/sanity_check.py --root data/raw --out docs/data_report.json
     #   # 9. Jalankan pipeline secara penuh untuk memastikan tidak ada error
     #   - name: DVC Reproduce Pipeline
     #     run: |
     #       dvc repro 
 
       # 10. Jika semua sukses, berikan notifikasi di log
-      - name: Success Message
-        run: echo "✅ DVC pull & repro executed successfully!"
+      # - name: Success Message
+      #   run: echo "✅ DVC pull & repro executed successfully!"
+
+      
