@@ -13,5 +13,4 @@ stages:
     - data/processed/train
     - fruitscan/augment.py
     - scripts/augment_dataset.py
-    outs:
-    - docs/aug_samples
+  
