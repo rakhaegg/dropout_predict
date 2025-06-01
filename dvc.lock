@@ -18,3 +18,26 @@ stages:
       md5: a8d1f9dd14625fa23595c6f09c26ec4a.dir
       size: 1856254809
       nfiles: 3342
+  augment_preview:
+    cmd: python scripts/augment_dataset.py --src data/processed/train --dst docs/aug_samples
+      -n 3
+    deps:
+    - path: data/processed/train
+      hash: md5
+      md5: 8365977193c5c1da20af8335bd0c7944.dir
+      size: 1440822383
+      nfiles: 2602
+    - path: fruitscan/augment.py
+      hash: md5
+      md5: fec6dbd4a41f10dc05d2bcf45e8df60b
+      size: 1174
+    - path: scripts/augment_dataset.py
+      hash: md5
+      md5: 24e1ee5aa4d8b92a7863378f6dd993e5
+      size: 1206
+    outs:
+    - path: docs/aug_samples
+      hash: md5
+      md5: 23379be1a6bd30ddd12c4cb9d4e2d75a.dir
+      size: 58191216
+      nfiles: 108
