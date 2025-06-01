@@ -1,0 +1,8 @@
+stages:
+  split_dataset:
+    cmd: python scripts/split.py --src data/raw --dst data/processed
+    deps:
+    - data/raw
+    - scripts/split.py
+    outs:
+    - data/processed
