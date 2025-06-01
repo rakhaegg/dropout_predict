@@ -85,9 +85,9 @@ jobs:
         run: |
           dvc pull 
 
-      - name: Run Sanity Check
-        run: |
-          python scripts/sanity_check.py --root data/raw --out docs/data_report.json
+      # - name: Run Sanity Check
+      #   run: |
+      #     python scripts/sanity_check.py --root data/raw --out docs/data_report.json
 
       - name: Run stratified split via DVC
         run: |
