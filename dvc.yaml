@@ -2,17 +2,17 @@ stages:
   split_dataset:
     cmd: python scripts/split.py --src data/raw --dst data/processed
     deps:
-    - data/raw
-    - scripts/split.py
+      - scripts/split.py
+      - data/raw
     outs:
-    - data/processed
+      - data/processed
+
   augment_preview:
-    cmd: python scripts/augment_dataset.py --src data/processed/train --dst docs/aug_samples
-      -n 3
+    cmd: python scripts/augment_dataset.py --src data/processed/train --dst docs/aug_samples -n 3
     deps:
-    - data/processed/train
-    - fruitscan/augment.py
-    - scripts/augment_dataset.py
+      - scripts/augment_dataset.py
+      - fruitscan/augment.py
+      - data/processed/train
     outs:
-    - docs/aug_samples
-      cache: false
+      - path: docs/aug_samples
+        cache: false
