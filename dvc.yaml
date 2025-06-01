@@ -15,4 +15,3 @@ stages:
       - data/processed/train
     outs:
       - path: docs/aug_samples
-        cache: false
