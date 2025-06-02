@@ -1,5 +1,6 @@
 name: DVC CI
 
+# 1. Workflow akan berjalan pada event "push" ke branch main
 on:
   push:
     branches:
@@ -8,104 +9,121 @@ on:
 jobs:
   dvc-check:
     runs-on: ubuntu-latest
-
-    env:
-      GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
-
     steps:
-      # 2. Checkout repository
+      # 2. Ambil (checkout) source code dari repository
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # 3. Setup Python
+      # 3. Siapkan Python (misal versi 3.12; bisa diganti sesuai kebutuhan)
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.12"
 
-      # 4. Install DVC & dependencies lainnya
+      # 4. Instal DVC beserta plugin Google Drive
       - name: Install DVC and dependencies
         run: |
           python -m pip install --upgrade pip
           pip install \
             dvc[gdrive] \
-            jupyter \
-            nbconvert \
-            pandas \
-            numpy \
-            matplotlib \
-            scikit-learn \
             pillow \
+            scikit-learn \
+            pytest \
             opencv-python \
-            albumentations \
-            pytest
+            albumentations
 
-      # 5. Rekonstruksi file Service Account JSON dari secret
+
+      # 5. Rekonstruksi file Service Account JSON dari secret GitHub ke folder credentials/
       - name: Recreate Service Account JSON
         run: |
           mkdir -p credentials
-          cat <<EOF > credentials/service-account.json
-          ${{ env.GDRIVE_SERVICE_ACCOUNT_JSON }}
+
+          # Gunakan here-document agar JSON tidak ter-escape
+          cat << 'EOF' > credentials/service-account.json
+          ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
           EOF
+
+          # (Opsional) Verifikasi ringkas beberapa baris awal JSON
           echo "=== First 5 lines of credentials/service-account.json ==="
           head -n 5 credentials/service-account.json
 
-      # 6. Konfigurasikan DVC remote untuk Google Drive
+
+      # 6. Konfigurasikan DVC agar menggunakan Service Account JSON
       - name: Configure DVC Remote for Google Drive
         run: |
-          # Ganti FOLDER_ID dan SA_EMAIL sesuai project Google Drive Anda
           FOLDER_ID=1slQ2wu0Lz_DPKCeKE0kZ-mge1qhUAM3e
           SA_EMAIL=dvc-gdrive-sa@seismic-octane-441403-b9.iam.gserviceaccount.com
+          # Jika remote belum pernah ditambahkan, baris ini akan menambahkannya
+          dvc remote add -d -f gdrive_remote gdrive://$FOLDER_ID
+          # Ganti <FOLDER_ID> dengan ID folder Google Drive yang sesuai
 
-          # Jika repo belum pernah di-dvc init, uncomment berikut:
-          # dvc init
-
-          # Hapus remote lama jika ada, agar tidak duplikat
-          dvc remote remove gdrive_remote || true
-          # Tambahkan remote baru sebagai default (-d)
-          dvc remote add -d gdrive_remote "gdrive://${FOLDER_ID}"
-
-          # Aktifkan penggunaan Service Account JSON secara lokal
+          # Aktifkan penggunaan Service Account
           dvc remote modify gdrive_remote gdrive_use_service_account true
+          # Tentukan lokasi file JSON (gunakan --local supaya tidak tersimpan di .dvc/config)
           dvc remote modify gdrive_remote --local \
             gdrive_service_account_json_file_path credentials/service-account.json
           dvc remote modify gdrive_remote --local \
-            gdrive_service_account_user_email "${SA_EMAIL}"
+            gdrive_service_account_user_email $SA_EMAIL
 
-      # 7. Tarik data dari DVC remote
+    #   # 7. Debug DVC Remote & JSON
+    #   - name: DVC Remote & JSON
+    #     run: |
+    #       echo "=== .dvc/config ==="
+    #       cat .dvc/config || echo "(no .dvc/config)"
+    #       echo "=== .dvc/config.local ==="
+    #       cat .dvc/config.local || echo "(no .dvc/config.local)"
+
+    #       echo "=== Check file JSON existence and syntax ==="
+    #       ls -l credentials/service-account.json
+    #       head -n 10 credentials/service-account.json
+
+    #       echo "=== DVC Remote List ==="
+    #       dvc remote list
+    #       echo "=== DVC Remote Info (gdrive_remote) ==="
+    #       dvc remote modify gdrive_remote --list
+
+      # 8. Jalankan dvc pull untuk mengambil data/cache dari remote
       - name: DVC Pull
         run: |
-          dvc pull -q
+          dvc pull 
 
-      # 8. Jalankan stratified split via DVC
+      # - name: Run Sanity Check
+      #   run: |
+      #     python scripts/sanity_check.py --root data/raw --out docs/data_report.json
+
       - name: Run stratified split via DVC
         run: |
           dvc repro split_dataset
 
-      # 9. Push hasil split kembali ke remote
       - name: Push processed split to remote
         run: |
           dvc push -q split_dataset
 
-      # 10. Jalankan unit test untuk dataset split
+      
       - name: Run dataset unit tests
         run: |
           pytest tests/test_dataset.py
 
-      # 11. Generate augmentation samples & jalankan test augmentasi
-      - name: Generate aug samples & run augment tests
+      - name: Generate aug samples & unit tests
         run: |
           dvc repro augment_preview
           pytest tests/test_augment.py
 
-      # 12. Build EDA report
       - name: Build EDA report
-        run: |
-          dvc repro eda_report
+        run: dvc repro eda_report
 
-      # 13. Upload EDA HTML sebagai artefak
-      - name: Upload EDA HTML
-        uses: actions/upload-artifact@v3
-        with:
-          name: eda-report
-          path: docs/eda_dataset.html
+      # - name: Upload EDA HTML
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: eda-report
+      #     path: docs/eda_dataset.html
+    #   # 9. Jalankan pipeline secara penuh untuk memastikan tidak ada error
+    #   - name: DVC Reproduce Pipeline
+    #     run: |
+    #       dvc repro 
+
+      # 10. Jika semua sukses, berikan notifikasi di log
+      # - name: Success Message
+      #   run: echo "✅ DVC pull & repro executed successfully!"
+
+      
