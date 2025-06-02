@@ -1,6 +1,5 @@
-# .github/workflows/dvc-ci.yml
-
 name: DVC CI
+
 on:
   push:
     branches:
@@ -14,17 +13,17 @@ jobs:
       GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}
 
     steps:
-      # 2. Ambil (checkout) source code dari repository
+      # 2. Checkout repository
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # 3. Siapkan Python (misal versi 3.12; bisa diganti sesuai kebutuhan)
+      # 3. Setup Python
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.12"
 
-      # 4. Instal DVC, Jupyter, dan dependencies Python lainnya
+      # 4. Install DVC & dependencies lainnya
       - name: Install DVC and dependencies
         run: |
           python -m pip install --upgrade pip
@@ -41,7 +40,7 @@ jobs:
             albumentations \
             pytest
 
-      # 5. Rekonstruksi file Service Account JSON dari secret GitHub ke folder credentials/
+      # 5. Rekonstruksi file Service Account JSON dari secret
       - name: Recreate Service Account JSON
         run: |
           mkdir -p credentials
@@ -51,24 +50,23 @@ jobs:
           echo "=== First 5 lines of credentials/service-account.json ==="
           head -n 5 credentials/service-account.json
 
-      # 6. Konfigurasikan DVC agar menggunakan Service Account JSON
+      # 6. Konfigurasikan DVC remote untuk Google Drive
       - name: Configure DVC Remote for Google Drive
         run: |
           # Ganti FOLDER_ID dan SA_EMAIL sesuai project Google Drive Anda
           FOLDER_ID=1slQ2wu0Lz_DPKCeKE0kZ-mge1qhUAM3e
           SA_EMAIL=dvc-gdrive-sa@seismic-octane-441403-b9.iam.gserviceaccount.com
 
-          # Jika DVC belum di-init di repo, uncomment baris berikut:
+          # Jika repo belum pernah di-dvc init, uncomment berikut:
           # dvc init
 
-          # Tambahkan remote (force overwrite jika sudah ada)
+          # Hapus remote lama jika ada, agar tidak duplikat
           dvc remote remove gdrive_remote || true
+          # Tambahkan remote baru sebagai default (-d)
           dvc remote add -d gdrive_remote "gdrive://${FOLDER_ID}"
 
-          # Aktifkan penggunaan Service Account
+          # Aktifkan penggunaan Service Account JSON secara lokal
           dvc remote modify gdrive_remote gdrive_use_service_account true
-
-          # Set lokal config agar path ke JSON tidak tercatat di Git
           dvc remote modify gdrive_remote --local \
             gdrive_service_account_json_file_path credentials/service-account.json
           dvc remote modify gdrive_remote --local \
@@ -79,12 +77,12 @@ jobs:
         run: |
           dvc pull -q
 
-      # 8. Stratified split via DVC
+      # 8. Jalankan stratified split via DVC
       - name: Run stratified split via DVC
         run: |
           dvc repro split_dataset
 
-      # 9. Upload hasil split ke remote
+      # 9. Push hasil split kembali ke remote
       - name: Push processed split to remote
         run: |
           dvc push -q split_dataset
@@ -94,7 +92,7 @@ jobs:
         run: |
           pytest tests/test_dataset.py
 
-      # 11. Augmentation preview & unit tests
+      # 11. Generate augmentation samples & jalankan test augmentasi
       - name: Generate aug samples & run augment tests
         run: |
           dvc repro augment_preview
