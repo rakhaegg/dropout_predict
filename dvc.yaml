@@ -13,4 +13,10 @@ stages:
     - data/processed/train
     - fruitscan/augment.py
     - scripts/augment_dataset.py
-  
+
+  eda_report:
+    cmd: python scripts/render_nb.py --src notebooks/eda_dataset.ipynb --dst docs/eda_dataset.html
+    deps:
+    - notebooks/eda_dataset.ipynb
+    outs:
+    - docs/eda_dataset.html
