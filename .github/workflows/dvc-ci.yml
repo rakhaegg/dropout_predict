@@ -109,6 +109,14 @@ jobs:
           dvc repro augment_preview
           pytest tests/test_augment.py
 
+      - name: Build EDA report
+        run: dvc repro eda_report
+
+      - name: Upload EDA HTML
+        uses: actions/upload-artifact@v3
+        with:
+          name: eda-report
+          path: docs/eda_dataset.html
     #   # 9. Jalankan pipeline secara penuh untuk memastikan tidak ada error
     #   - name: DVC Reproduce Pipeline
     #     run: |
