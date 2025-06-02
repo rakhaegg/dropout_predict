@@ -41,3 +41,15 @@ stages:
       md5: 23379be1a6bd30ddd12c4cb9d4e2d75a.dir
       size: 58191216
       nfiles: 108
+  eda_report:
+    cmd: python scripts/render_nb.py --src notebooks/eda_dataset.ipynb --dst docs/eda_dataset.html
+    deps:
+    - path: notebooks/eda_dataset.ipynb
+      hash: md5
+      md5: 0f6099502182bf3d2a8c0be8cca2f04a
+      size: 1028446
+    outs:
+    - path: docs/eda_dataset.html
+      hash: md5
+      md5: bee759a9200ad3de4d29d5ba1607c29c
+      size: 1316157
