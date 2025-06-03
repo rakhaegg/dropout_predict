@@ -112,6 +112,8 @@ jobs:
       - name: Build EDA report
         run: dvc repro eda_report
 
+      - name: Run price unit tests
+        run: pytest tests/test_price.py
       # - name: Upload EDA HTML
       #   uses: actions/upload-artifact@v3
       #   with:
