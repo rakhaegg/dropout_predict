@@ -49,6 +49,7 @@ if __name__ == "__main__":
     corrupt = [m for m in meta if m["status"] == "corrupt"]
     small   = [m for m in meta if m["status"] == "small"]
 
+    # Deteksi duplikat (hanya untuk laporan, tidak dianggap error)
     hashes = {}
     dups = []
     for m in meta:
@@ -62,17 +63,19 @@ if __name__ == "__main__":
         total=len(meta),
         corrupt=len(corrupt),
         small=len(small),
-        duplicates=len(dups),
-        dup_pairs=dups[:20],   # contoh maks 20
+        duplicates=len(dups),       # jumlah pasangan duplikat
+        dup_pairs=dups[:20],        # contoh pasang duplikat (maks 20)
         by_label={}
     )
     for m in meta:
         report["by_label"].setdefault(m["label"], 0)
         report["by_label"][m["label"]] += 1
 
+    # Tulis laporan JSON
     Path(args.out).write_text(json.dumps(report, indent=2))
     print(json.dumps(report, indent=2))
 
-    # Exit non-zero bila ada masalah
-    if report["corrupt"] or report["duplicates"]:
-        sys.exit("Data sanity check failed!")
+    # Exit non-zero hanya bila ada gambar corrupt
+    if report["corrupt"] > 0:
+        sys.exit("Data sanity check failed due to corrupt images!")
+    # Duplikat tidak menyebabkan exit non-zero

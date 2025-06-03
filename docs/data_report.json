@@ -1,0 +1,126 @@
+{
+  "total": 3040,
+  "corrupt": 0,
+  "small": 0,
+  "duplicates": 214,
+  "dup_pairs": [
+    [
+      "pear/Image_97.jpg",
+      "pear/Image_5.jpg"
+    ],
+    [
+      "pear/Image_7.jpg",
+      "pear/Image_99.jpg"
+    ],
+    [
+      "pear/Image_3.jpg",
+      "pear/Image_94.jpg"
+    ],
+    [
+      "pear/Image_4.jpg",
+      "pear/Image_96.jpg"
+    ],
+    [
+      "pear/Image_95.jpg",
+      "pear/Image_2.jpg"
+    ],
+    [
+      "pear/Image_100.jpg",
+      "pear/Image_9.jpg"
+    ],
+    [
+      "pear/Image_1.jpg",
+      "pear/Image_93.jpg"
+    ],
+    [
+      "pear/Image_98.jpg",
+      "pear/Image_6.jpg"
+    ],
+    [
+      "tomato/Image_1.jpg",
+      "tomato/Image_99.jpg"
+    ],
+    [
+      "tomato/Image_100.jpg",
+      "tomato/Image_2.jpg"
+    ],
+    [
+      "capsicum/Image_1.jpg",
+      "capsicum/Image_98.jpg"
+    ],
+    [
+      "capsicum/Image_99.jpg",
+      "capsicum/Image_2.jpg"
+    ],
+    [
+      "watermelon/Image_97.jpg",
+      "watermelon/Image_1.jpg"
+    ],
+    [
+      "watermelon/Image_3.jpg",
+      "watermelon/Image_99.jpg"
+    ],
+    [
+      "watermelon/Image_4.jpg",
+      "watermelon/Image_100.jpg"
+    ],
+    [
+      "watermelon/Image_98.jpg",
+      "watermelon/Image_2.jpg"
+    ],
+    [
+      "chilli pepper/Image_1.jpg",
+      "chilli pepper/Image_99.jpg"
+    ],
+    [
+      "grapes/Image_5.jpeg",
+      "grapes/Image_100.jpeg"
+    ],
+    [
+      "grapes/Image_4.jpg",
+      "grapes/Image_99.jpg"
+    ],
+    [
+      "grapes/Image_1.jpg",
+      "grapes/Image_96.jpg"
+    ]
+  ],
+  "by_label": {
+    "pear": 88,
+    "tomato": 92,
+    "capsicum": 84,
+    "watermelon": 83,
+    "chilli pepper": 81,
+    "apple": 67,
+    "grapes": 94,
+    "lettuce": 95,
+    "eggplant": 81,
+    "raddish": 79,
+    "jalepeno": 87,
+    "peas": 96,
+    "orange": 68,
+    "pomegranate": 78,
+    "potato": 75,
+    "lemon": 81,
+    "garlic": 91,
+    "bell pepper": 88,
+    "sweetcorn": 88,
+    "ginger": 68,
+    "sweetpotato": 69,
+    "spinach": 94,
+    "paprika": 82,
+    "carrot": 81,
+    "turnip": 93,
+    "corn": 86,
+    "beetroot": 87,
+    "kiwi": 88,
+    "cabbage": 87,
+    "cucumber": 88,
+    "banana": 74,
+    "mango": 84,
+    "onion": 93,
+    "pineapple": 98,
+    "cauliflower": 76,
+    "soy beans": 96
+  }
+}

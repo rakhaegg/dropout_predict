@@ -1,0 +1,126 @@
+{
+  "total": 3738,
+  "corrupt": 0,
+  "small": 0,
+  "duplicates": 896,
+  "dup_pairs": [
+    [
+      "validation/pear/Image_3.jpg",
+      "validation/pear/Image_10.jpg"
+    ],
+    [
+      "validation/pear/Image_8.jpg",
+      "validation/pear/Image_2.jpg"
+    ],
+    [
+      "validation/pear/Image_1.jpg",
+      "validation/pear/Image_9.jpg"
+    ],
+    [
+      "validation/tomato/Image_1.jpg",
+      "validation/tomato/Image_10.jpg"
+    ],
+    [
+      "validation/capsicum/Image_1.jpg",
+      "validation/capsicum/Image_10.jpg"
+    ],
+    [
+      "validation/chilli pepper/Image_1.jpg",
+      "validation/chilli pepper/Image_10.jpg"
+    ],
+    [
+      "validation/apple/Image_1.jpg",
+      "validation/apple/Image_10.jpg"
+    ],
+    [
+      "validation/raddish/Image_1.jpg",
+      "validation/raddish/Image_10.jpg"
+    ],
+    [
+      "validation/pomegranate/Image_1.jpg",
+      "validation/pomegranate/Image_10.jpg"
+    ],
+    [
+      "validation/bell pepper/Image_10.jpg",
+      "validation/bell pepper/Image_2.jpg"
+    ],
+    [
+      "validation/bell pepper/Image_1.jpg",
+      "validation/bell pepper/Image_9.jpg"
+    ],
+    [
+      "validation/ginger/Image_10.jpg",
+      "validation/ginger/Image_2.jpg"
+    ],
+    [
+      "validation/sweetpotato/Image_4.jpg",
+      "validation/sweetpotato/Image_8.jpg"
+    ],
+    [
+      "validation/sweetpotato/Image_10.jpg",
+      "validation/sweetpotato/Image_2.jpg"
+    ],
+    [
+      "validation/sweetpotato/Image_1.jpg",
+      "validation/sweetpotato/Image_9.jpg"
+    ],
+    [
+      "validation/paprika/Image_1.jpg",
+      "validation/paprika/Image_10.jpg"
+    ],
+    [
+      "validation/carrot/Image_1.jpg",
+      "validation/carrot/Image_10.jpg"
+    ],
+    [
+      "validation/turnip/Image_1.jpg",
+      "validation/turnip/Image_10.jpg"
+    ],
+    [
+      "validation/sweetcorn/Image_5.jpg",
+      "validation/corn/Image_3.jpg"
+    ],
+    [
+      "validation/sweetcorn/Image_9.jpg",
+      "validation/corn/Image_1.jpg"
+    ]
+  ],
+  "by_label": {
+    "pear": 108,
+    "tomato": 112,
+    "capsicum": 102,
+    "watermelon": 103,
+    "chilli pepper": 100,
+    "apple": 85,
+    "grapes": 111,
+    "lettuce": 114,
+    "eggplant": 101,
+    "raddish": 98,
+    "jalepeno": 106,
+    "peas": 116,
+    "orange": 87,
+    "pomegranate": 98,
+    "potato": 93,
+    "lemon": 101,
+    "garlic": 111,
+    "bell pepper": 107,
+    "sweetcorn": 108,
+    "ginger": 88,
+    "sweetpotato": 89,
+    "spinach": 114,
+    "paprika": 102,
+    "carrot": 98,
+    "turnip": 113,
+    "corn": 106,
+    "beetroot": 107,
+    "kiwi": 108,
+    "cabbage": 107,
+    "cucumber": 108,
+    "banana": 92,
+    "mango": 104,
+    "onion": 113,
+    "pineapple": 118,
+    "cauliflower": 94,
+    "soy beans": 116
+  }
+}
