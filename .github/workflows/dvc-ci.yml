@@ -91,26 +91,26 @@ jobs:
         run: |
           python scripts/sanity_check.py --root data/raw --out docs/data_report.json
 
-      # - name: Run stratified split via DVC
-      #   run: |
-      #     dvc repro split_dataset
+      - name: Run stratified split via DVC
+        run: |
+          dvc repro split_dataset
 
-      # - name: Push processed split to remote
-      #   run: |
-      #     dvc push -q split_dataset
+      - name: Push processed split to remote
+        run: |
+          dvc push -q split_dataset
 
       
-      # - name: Run dataset unit tests
-      #   run: |
-      #     pytest tests/test_dataset.py
+      - name: Run dataset unit tests
+        run: |
+          pytest tests/test_dataset.py
 
-      # - name: Generate aug samples & unit tests
-      #   run: |
-      #     dvc repro augment_preview
-      #     pytest tests/test_augment.py
+      - name: Generate aug samples & unit tests
+        run: |
+          dvc repro augment_preview
+          pytest tests/test_augment.py
 
-      # - name: Build EDA report
-      #   run: dvc repro eda_report
+      - name: Build EDA report
+        run: dvc repro eda_report
 
       # - name: Upload EDA HTML
       #   uses: actions/upload-artifact@v3
